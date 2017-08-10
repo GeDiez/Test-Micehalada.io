@@ -1,0 +1,26 @@
+.App {
+  text-align: center;
+  margin: 0 5%;
+}
+
+.content .panel .panel-body {
+	background: url('../Images/gaming-pattern.png');
+}
+
+.dropdown {
+	text-align: center;
+	box-shadow: 0px 0px 30px #ffffff;
+}
+
+.btn-opciones-list {
+	float: right;
+}
+
+.btn-remove :hover {
+	background: red;
+}
+
+.btn-editar :hover {
+	background: blue;
+	color: white;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "testmichelada.io",
+  "version": "1.0.0",
+  "description": "Test para entrar al equipo de trabajo Michelada.io en Colima",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Gibran Lopez Morales (gediez)",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.4"
+  }
+}
