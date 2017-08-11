@@ -1,21 +1,16 @@
 import React from 'react'
+import Store from '../Store/Store'
 
 import { modelCreateBrand } from '../Models/Brands'
 import { actionAddBrand } from '../Actions/ActionsBrands'
-import { notify } from '../Actions/ActionsNotify'
 
 const onSubmit = function( ev ) {
 	ev.preventDefault()
-	var newBrand = modelCreateBrand(
-		ev.target.brandName.value
-	)
+	var newBrand = {
+		name: ev.target.brandName.value
+	}
 	if( newBrand !== undefined ){
-		actionAddBrand(newBrand)
-		notify({
-			type: 'NOTIFY',
-			status: 'success',
-			msj: 'Se ha creado una nueva marca : ' + newBrand.name
-		})
+		Store.dispatch(actionAddBrand(newBrand))
 	}
 }
 

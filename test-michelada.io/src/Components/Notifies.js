@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Notifies = function( props ) {
-	if (props.notify.status !== null) 
+	if (props.notify.status !== undefined)
 		return(
 			<div>
 				<div className={'alert alert-dismissible fade in alert-'+props.notify.status}>
@@ -11,8 +11,9 @@ const Notifies = function( props ) {
 					{ props.notify.msj }
 				</div>
 			</div>
-			
-			)
+		)
+	return (
+		<div> </div>)
 }
 
 export default Notifies

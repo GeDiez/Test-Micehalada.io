@@ -14,11 +14,6 @@ const onSubmit = function(ev) {
 	}
 	if( newProduct !== undefined ){
 		Store.dispatch(actionAddProduct(newProduct))
-		notify({
-			type: 'NOTIFY',
-			status: 'success',
-			msj: 'Producto nuevo creado: '+newProduct.name
-		})
 	}
 }
 

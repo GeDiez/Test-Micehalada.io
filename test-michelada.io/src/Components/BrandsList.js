@@ -2,20 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { actionRemoveBrand } from '../Actions/ActionsBrands'
 import { actionModifyBrand } from '../Actions/ActionsBrands'
+import Store from '../Store/Store'
 import Modal from './Modal'
 
 let idSelected = undefined
 
 const clickRemove = function() {
-	actionRemoveBrand(idSelected)
+	Store.dispatch(actionRemoveBrand(idSelected))
 }
 
 const saveIdSelected = function( ev ) {
 	idSelected = ev.target.id
-}
-
-const clickModifyBrand = function( ev ) {
-	actionModifyBrand(ev.target.id)
 }
 
 const listOfBrands = function( brands ) {

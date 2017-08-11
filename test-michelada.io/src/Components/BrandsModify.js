@@ -1,4 +1,5 @@
 import React from 'react'
+import Store from '../Store/Store'
 import { modelGetBrandById } from '../Models/Brands'
 import { actionModifyBrand } from '../Actions/ActionsBrands'
 import { notify } from '../Actions/ActionsNotify'
@@ -6,19 +7,20 @@ import { notify } from '../Actions/ActionsNotify'
 const onSubmit = function(ev) {
 	ev.preventDefault()
 	var brand = {
-		name: ev.target.brandName.value,
+		id: ev.target.brandId.value,
+		name: ev.target.brandName.value
 	}
-	actionModifyBrand(brand)
+	Store.dispatch(actionModifyBrand(brand))
 }
 
 const BrandModify = function( props ) {
-	console.log(props)
 	var brandCurrent = modelGetBrandById(props.brands, props.match.params.id)
 	return(
 		<form className='form' onSubmit={ onSubmit }>
 			<label>Actualizar marca</label>
+			<input type="hidden" name="brandId" defaultValue={ brandCurrent.id } />
 			<div className="form-group">
-				<input name="brandName" type="text" placeholder="Renombrar marca" value={brandCurrent.name}/>
+				<input name="brandName" type="text" placeholder="Renombrar marca" defaultValue={brandCurrent.name}/>
 			</div>
 			<input type="submit" value="Modificar"/>
 		</form>

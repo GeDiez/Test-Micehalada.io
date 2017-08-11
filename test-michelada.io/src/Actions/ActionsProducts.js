@@ -1,4 +1,4 @@
-import Store from '../Store/Store'
+import { notify } from './ActionsNotify'
 import axios from 'axios'
 
 const actionGetProducts = function() {
@@ -21,6 +21,11 @@ const actionAddProduct = function(product) {
 					type: 'ADD_PRODUCT',
 					product: res.data
 				})
+				dispatch(notify({
+					msj: 'Nuevo producto con nombre: '+res.data.name,
+					status: 'success'
+
+				}))
 			})
 		}
 }
@@ -46,8 +51,6 @@ const actionModifyProduct = function(product) {
 	return function(dispatch){
 		return axios.put("http://localhost:8000/api/product/"+product.id, product)
 			.then(function(res){
-				console.log("product updated")
-				console.log(res.data)
 				dispatch({
 					type: 'MODIFY_PRODUCT',
 					product: res.data

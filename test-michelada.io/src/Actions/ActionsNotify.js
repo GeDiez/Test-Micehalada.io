@@ -1,10 +1,8 @@
-import Store from '../Store/Store'
-
-const notify =  function( msj ) {
-	Store.dispatch({
+const notify = function( msj ) {
+	return {
 		type: 'NOTIFY',
 		msj
-	})
+	}
 }
 
 export { notify } 

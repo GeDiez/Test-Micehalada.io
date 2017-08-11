@@ -15,10 +15,6 @@ const saveIdSelected = function( ev ) {
 	idSelected = ev.target.id
 }
 
-const clickModifyProduct = function( ev ) {
-	actionModifyProduct(ev.target.id)
-}
-
 const listOfPrducts = function( products ) {
 	return products.map(function( product ) {
 		return <li key={ product.id } className="list-group-item">
@@ -34,7 +30,16 @@ const listOfPrducts = function( products ) {
 					</Link>					
 				</span>
 			</p>
-				<b>Nombre:</b> { product.name }  <b>Descripcion:</b> { product.desc } <b>Marca:</b> { product.brand } <b>Price: </b>{ product.price }
+				<table style={{marginLeft: 'auto', marginRight: 'auto'}}>
+					<tbody>
+						<tr>
+							<td><b>	Nombre:</b> { product.name } <b>Descripcion:</b> { product.desc }</td>
+						</tr>
+						<tr>
+							<td><b>	Marca:</b> { product.brand } <b>	Price: </b>{ product.price }</td>
+						</tr>
+					</tbody>
+				</table>				    
 		</li>
 	})
 }

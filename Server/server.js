@@ -2,6 +2,7 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 var cors = require('cors')
+var knex = require('./knex')
 
 var port = 8000
 var router = express.Router()
@@ -65,6 +66,7 @@ var db = {
 	]
 }	
 
+
 //Enrutamos las URIs
 
 router.route('/')
@@ -77,110 +79,130 @@ router.route('/')
 // /api/product - GET
 router.route('/product')
 	.get(function( req, res ) {
-		res.json(db.products)
+		knex.select().table('micheladaTest.product')
+			.then(function(collection) {
+				console.log(collection)
+				res.json(collection)
+			})
 	})
 
 // /api/product/:id - GET
 router.route('/product/:id')
 	.get(function( req, res ) {
-		var product = db.products.filter(function(product) {
-			if (product.id == req.params.id)
-				return product
-		})
-		res.json(product)
+		knex.select().table('micheladaTest.product')
+			.then(function(collection) {
+				var product = collection.filter(function(product) {
+					if (product.id == req.params.id)
+						return product
+				})
+				res.json(product)
+			})
 })
 
 // /api/product/:id - POST
 router.route('/product')
 	.post(function( req, res ) {
-		var product = req.body
-		product.id = Date.now()
-		db.products.push(product)
-		res.json(product)
+		var productNew = req.body
+		knex('micheladaTest.product')
+		.insert(productNew)
+		.returning('id')
+			.then(function(id){
+				productNew.id = parseInt(id[0])
+				res.json(productNew)
+			})		
 	})
 
 // /api/product/:id - PUT
 router.route('/product/:id')
 	.put(function( req, res ) {
-		var product = req.body
-		var productModified
-		db.products.forEach(function( p ) {
-			if (p.id == req.params.id){
-				p.name = product.name
-				p.desc = product.desc
-				p.price = product.price
-				p.brand = product.brand
-				productModified = p 
-			}
-		})
-		res.json(productModified)
+		knex('micheladaTest.product')
+			.where('id', '=', req.params.id)
+				.update(req.body)
+				.then(function() {
+					knex.select()
+						.table('micheladaTest.product')
+							.where('id', '=', req.params.id)
+								.then(function(collection) {
+									res.json(collection[0])
+								})
+				})
 	})
 
 // /api/product/:id - DELETE
 router.route('/product/:id')
 	.delete(function( req, res )	{
-		var productDelete
-		db.products = db.products.filter(function(product) {
-			if (product.id == req.params.id){
-				productDelete = product
-				return
-			}
-			return product
-		})
-		res.json(productDelete)
+		knex('micheladaTest.product')
+			.where( 'id', '=', req.params.id )
+				.del()
+					.then(function() {
+						var response = { id:req.params.id }
+						res.json(response)
+					})
 	})
 
 // /api/brand - GET
 router.route('/brand')
 	.get(function( req, res ) {
-		res.json(db.brands)
+		knex.select().table('micheladaTest.brand')
+			.then(function(collection) {
+				console.log(collection)
+				res.json(collection)
+			})
 	})
 
 // /api/brand/:id - GET
 router.route('/brand/:id')
 	.get(function( req, res ) {
-		var brand = db.brands.filter(function(brand) {
-			if (brand.id == req.params.id)
-				return brand
-		})
-		res.json(brand)
+		knex.select().table('micheladaTest.brand')
+			.then(function(collection) {
+				var brand = collection.filter(function(brand) {
+					if (brand.id == req.params.id)
+						return brand
+				})
+				res.json(brand)
+			})
 	})
 
 // /api/brand/:id - POST
 router.route('/brand')
 	.post(function( req, res ) {
-		var brand = req.body
-		brand.id = Date.now()
-		db.brands.push(brand)
-		res.json(brand)
+		var brandNew = req.body
+		knex('micheladaTest.brand')
+			.insert(brandNew)
+			.returning('id')
+			.then(function(id){
+				console.log(id)
+				brandNew.id = parseInt(id[0])
+				res.json(brandNew)
+			})
 	})
 
 // /api/brand/:id - PUT
 router.route('/brand/:id')
 	.put(function( req, res ) {
-		var brand = req.body
-		var brandModified
-		db.brands.forEach(function( b ) {
-			if (b.id == req.params.id){
-				b.name = brand.name
-				brandModified = b
-			}
-		})
-		res.json(brandModified)
+		knex('micheladaTest.brand')
+			.where('id', '=', req.params.id)
+				.update(req.body)
+				.then(function() {
+					knex.select()
+						.table('micheladaTest.brand')
+							.where('id', '=', req.params.id)
+								.then(function(collection) {
+									res.json(collection[0])
+								})
+				})
 	})
 
 // /api/brand/:id - DELETE
 router.route('/brand/:id')
 	.delete(function( req, res )	{
-		var brandDelete
-		db.brands = db.brands.filter(function(brand) {
-			if (brand.id == req.params.id){
-				brandDelete = brand
-				return
-			}
-			return brand
-		})
-		res.json(brandDelete)
+		knex('micheladaTest.brand')
+			.where( 'id', '=', req.params.id )
+				.del()
+					.then(function() {
+						var response = { id:req.params.id }
+						res.json(response)
+					})
 	})
 
 app.use('/api', router)
